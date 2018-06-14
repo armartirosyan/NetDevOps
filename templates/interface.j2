@@ -1,5 +1,10 @@
-interfaces{
+interfaces {
     xe-0/0/0 {
+     {% if inventory_hostname.startswith('LS') %}
+     mac 00:50:56:81:3d:af;
+     {% elif inventory_hostname.startswith('SS') %}
+     mac 00:50:56:81:65:94;
+     {% endif %}
         unit 0 {
             family inet {
      {% if inventory_hostname.startswith('LS') %}
@@ -18,6 +23,13 @@ interfaces{
      {% elif inventory_hostname.startswith('SS') %}
      address 10.22.5.234/23;
      {% endif %}
+            }
+        }
+    }
+    em0 {
+        unit 0 {
+            family inet {
+                address 169.254.0.2/24;
             }
         }
     }
