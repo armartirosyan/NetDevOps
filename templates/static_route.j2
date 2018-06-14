@@ -3,7 +3,7 @@ routing-options {
     {% for n in range(5) %}
         route 172.16.{{ range(0,254) | random }}.0/24 next-hop 10.22.4.2;
     {% endfor %}
+        route 10.1.100.0/24 next-hop 10.22.4.1;
     }
-    route 10.1.100.0/24 next-hop 10.22.4.1;
 }
 
