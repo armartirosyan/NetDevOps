@@ -1,8 +1,8 @@
 [leaf]
-LS ansible_ssh_host=192.168.171.235
+LS ansible_ssh_host=10.22.5.235
 
 [spine]
-SS ansible_ssh_host=192.168.171.234
+SS ansible_ssh_host=10.22.5.234
 
 [dc:children]
 leaf
