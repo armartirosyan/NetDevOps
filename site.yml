@@ -54,8 +54,6 @@
         host: "{{ ansible_ssh_host }}"
         user: "{{ USER }}"
         passwd: "{{PASS}}"
-    }
-    }
 
     - name: Complete Folder Cleanup
       file:
