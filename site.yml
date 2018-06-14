@@ -49,7 +49,7 @@
   tasks:
     - name: "Pushing config to the {{ inventory_hostname }}"
       juniper_junos_config:
-        load: 'merge'
+        load: 'override'
         src: "./complete/{{ inventory_hostname }}_FINAL.conf"
         host: "{{ ansible_ssh_host }}"
         user: "{{ USER }}"
