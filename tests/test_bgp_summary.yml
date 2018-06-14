@@ -1,0 +1,14 @@
+tests_include:
+  - bgp-summary
+bgp-summary:
+  - command: show bgp summary
+  - iterate:
+      xpath: '/bgp-information/bgp-peer'
+      id: peer-address
+      tests:
+        - err: 'BGP peer AS: {{post["peer-as"]}}, NEI: {{post["peer-address"]}} is not Estab, rather {{post["peer-state"]}}'
+          info: All BGP Peers are 'Established'
+          is-equal: peer-state, Established
+        - err: 'BGP RIB: ''{{post["peer-address"]}}'' went away, oh no!'
+          info: BGP list did not loose peers
+          list-not-less: null

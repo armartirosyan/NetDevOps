@@ -1,0 +1,1 @@
+{u'chassis-inventory': [{u'attributes': {u'xmlns': u'http://xml.juniper.net/junos/15.1X53/junos-chassis'}, u'chassis': [{u'attributes': {u'junos:style': u'inventory'}, u'serial-number': [{u'data': u'40664311444'}], u'name': [{u'data': u'Chassis'}], u'description': [{u'data': u'QFX3500'}]}]}]}

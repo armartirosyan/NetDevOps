@@ -1,0 +1,5 @@
+---
+- name: Generate Configuration for System
+  template:
+    src: ./{{ templates.system }}
+    dest: ./staging/{{ inventory_hostname }}/{{ inventory_hostname }}_system.cfg

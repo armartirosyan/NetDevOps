@@ -1,0 +1,11 @@
+---
+- name: Create Template storage directory within the staging director 
+  file:
+    path: ./staging/{{ inventory_hostname }}/
+    state: directory
+
+- name: Generate Access Switch j2 template
+  template:
+    src: ./{{ templates.bgp }}
+    dest: ./staging/{{ inventory_hostname }}/{{ inventory_hostname }}_Access.cfg
+

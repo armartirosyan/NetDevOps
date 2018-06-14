@@ -1,0 +1,5 @@
+---
+- name: Generate Access Switch j2 template
+  template:
+    src: ./{{ templates.interface }}
+    dest: ./staging/{{ inventory_hostname }}/{{ inventory_hostname }}_interface.cfg

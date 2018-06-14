@@ -1,0 +1,15 @@
+tests_include:
+  - routing-engine-summary
+routing-engine-summary:
+  - command: 'show chassis routing-engine'
+  - iterate:
+      xpath: //route-engine
+      id: model
+      tests:
+        - err: 'CPU IDLE is less than 30%. Current CPU loads are: Interrupt: {{post["cpu-interrupt3"]}}, User: {{post["cpu-user3"]}} Background: {{post["cpu-background3"]}} Kernel: {{post["cpu-system3"]}} IDLE: {{post["cpu-idle3"]}}'
+          info: 'CPU is OK'
+          is-lt: cpu-idle3, 80
+        - is-lt: memory-buffer-utilization, 70
+          err: 'Machine is running out of memory. Available memory: {{post["memory-dram-size"]}} Current utilization: {{post["memory-buffer-utilization"]}}%. For normal operation the utilization percent should be less than 50%.'
+          info: Memory utilization is in normal ranges
+

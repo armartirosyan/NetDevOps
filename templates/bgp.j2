@@ -1,0 +1,36 @@
+policy-options {
+policy-statement EXPORT2BGP {
+    term 1 {
+        from protocol direct;
+        then accept;
+    }
+    term 2 {
+        from protocol static;
+        then accept;
+    }
+}
+}
+protocols{
+bgp {
+    {% if inventory_hostname.startswith('LS') %}
+    group {{ global.leaf.group_name }} {
+        type {{ global.type }};
+        export EXPORT2BGP;
+        peer-as {{ global.leaf.peer_as }};
+        local-as {{ global.leaf.local_as }};
+      {% for n in global.leaf.neighbors %}
+        neighbor {{ n }};
+      {% endfor %}
+    {% elif inventory_hostname.startswith('SS') %}
+    group {{ global.spine.group_name }} {
+        type {{ global.type }};
+        export EXPORT2BGP;
+        peer-as {{ global.spine.peer_as }};
+        local-as {{ global.spine.local_as }};
+    {% for n in global.spine.neighbors %}
+        neighbor {{ n }};
+    {% endfor %}
+    {% endif %}
+}
+}
+}

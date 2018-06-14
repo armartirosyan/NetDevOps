@@ -1,0 +1,14 @@
+interfaces{
+    xe-0/0/0 {
+        unit 0 {
+            family inet {
+     {% if inventory_hostname.startswith('LS') %}
+     address {{ global.spine.neighbors[0]}}/24;
+     {% elif inventory_hostname.startswith('SS') %}
+     address {{ global.leaf.neighbors[0]}}/24;
+     {% endif %}
+         }
+       }
+    }
+}
+

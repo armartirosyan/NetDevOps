@@ -1,0 +1,5 @@
+---
+- name: Generate Static Route Configuration
+  template:
+    src: ./{{ templates.static_route }}
+    dest: ./staging/{{ inventory_hostname }}/{{ inventory_hostname }}_static.cfg

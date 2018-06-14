@@ -1,0 +1,21 @@
+---
+templates:
+  bgp: bgp.j2
+  system: system.j2
+  static_route: static_route.j2
+  interface: interface.j2
+
+global:
+  type: external
+  spine:
+    group_name: SPINE
+    peer_as: 65001
+    local_as: 65000
+    neighbors:
+      - 192.168.10.2
+  leaf:
+    group_name: LEAF
+    peer_as: 65000
+    local_as: 65001
+    neighbors:
+      - 192.168.10.1
