@@ -1,0 +1,58 @@
+---
+- name: Execute Tests with Jsnapy
+  hosts: dc
+  connection: local
+  gather_facts: no
+  roles:
+    - Juniper.junos
+  tasks:
+    - name: "TEST1 - Check chassis FPC status"
+      ignore_errors: true
+      junos_jsnapy:
+        host: "{{ ansible_ssh_host }}"
+        user: root
+        passwd: Juniper
+        test_files: tests/test_chassis_fpc.yml
+        action: snapcheck
+        logfile: ./logs/jsnapy_chassis_fpc.log
+      register: test1
+
+    - name: "TEST2 - Check chassis routing engine"
+      ignore_errors: true
+      junos_jsnapy:
+        host: "{{ ansible_ssh_host }}"
+        user: root
+        passwd: Juniper
+        test_files: tests/test_routing_engine.yml
+        action: snapcheck
+        logfile: ./logs/jsnapy_routing_engine.log
+      register: test2
+
+    - name: "TEST3 - Check routing table summary"
+      ignore_errors: true
+      junos_jsnapy:
+        host: "{{ ansible_ssh_host }}"
+        user: root
+        passwd: Juniper
+        test_files: tests/test_route.yml
+        action: snapcheck
+        logfile: ./logs/jsnapy_route_summary.log
+      register: test3
+
+    - name: "TEST4 - Check BGP neighborship"
+      ignore_errors: true
+      junos_jsnapy:
+        host: "{{ ansible_ssh_host }}"
+        user: root
+        passwd: Juniper
+        test_files: tests/test_bgp_summary.yml
+        action: snapcheck
+        logfile: ./logs/jsnapy_bgp_summary.log
+      register: test4
+
+    - assert:
+        that:
+          #- "test1.passPercentage == 100"
+          - "test2.passPercentage == 100"
+          - "test3.passPercentage == 100"
+          - "test4.passPercentage == 100"

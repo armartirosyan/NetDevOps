@@ -1,0 +1,78 @@
+---
+- name: Generate Config for Leaf Devices
+  hosts: leaf
+  gather_facts: no
+  connection: local
+  roles:
+    - { role: bgp }
+    - { role: system }
+    - { role: static_route }
+    - { role: interface }
+
+  tasks:
+    - name: Combine
+      assemble:
+        src: ./staging/{{ inventory_hostname }}/
+        dest: ./complete/{{ inventory_hostname }}_FINAL.conf
+
+- name: Generate Config for Spine Devices
+  hosts: spine
+  gather_facts: no
+  connection: local
+  roles:
+    - { role: bgp}
+    - { role: system }
+    - { role: static_route }
+    - { role: interface }
+
+  tasks:
+    - name: Combine
+      assemble:
+        src: ./staging/{{ inventory_hostname }}/
+        dest: ./complete/{{ inventory_hostname }}_FINAL.conf
+
+    - name: Cleanup
+      file:
+        path: ./staging
+        state: absent
+
+- name: Pushing Configuraiton
+  hosts: dc
+  gather_facts: no
+  connection: local
+  roles:
+    - Juniper.junos
+  vars:
+    USER: root
+    PASS: Juniper
+
+  tasks:
+    - name: "Pushing config to the {{ inventory_hostname }}"
+      juniper_junos_config:
+        load: 'merge'
+        src: "./complete/{{ inventory_hostname }}_FINAL.conf"
+        host: "{{ ansible_ssh_host }}"
+        user: "{{ USER }}"
+        passwd: "{{PASS}}"
+    }
+    }
+
+    - name: Complete Folder Cleanup
+      file:
+        path: "./complete/{{ inventory_hostname}}_FINAL.conf"
+        state: absent
+#    - name: Checking the results
+#      juniper_junos_command:
+#        host: "{{ ansible_ssh_host }}"
+#        user: "{{ USER }}"
+#        passwd: "{{ PASS }}"
+#        commands:
+#          - show version
+#          - show system alarms
+#          - show chassis fpc
+#          - show chassis hardware
+#          - show chassis fpc pic-status
+#          - show route
+#          - show bgp summary
+#        format: json
+#        dest_dir: "./output"
