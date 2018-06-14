@@ -10,5 +10,16 @@ interfaces{
          }
        }
     }
+    em0 {
+        unit 0 {
+            family inet {
+     {% if inventory_hostname.startswith('LS') %}
+     address 10.22.5.235/23;
+     {% elif inventory_hostname.startswith('SS') %}
+     address 10.22.5.234/23;
+     {% endif %}
+            }
+        }
+    }
 }
 
