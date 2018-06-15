@@ -6,6 +6,9 @@
   roles:
     - Juniper.junos
   tasks:
+    - pause:
+      minutes: 1
+      
     - name: "TEST1 - Check chassis FPC status"
       ignore_errors: true
       junos_jsnapy:
